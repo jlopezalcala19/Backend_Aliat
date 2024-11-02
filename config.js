@@ -1,5 +1,5 @@
 var config = {}
-config.puerto = 3000
+config.puerto = process.env.PORT || 3000
 config.nombrebd = "aliat"
 config.listablanca =[
     'http://localhost:4200'
