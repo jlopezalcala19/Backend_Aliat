@@ -74,7 +74,7 @@ require("./rutas.js")
 //mongodb://127.0.0.1:27017/
 mongoose
 .connect(process.env.MONGODB_URI)
-.then(()=>console.log('Conectado a ATLAS'))
+.then(()=>console.log('Conectado a MongoDB ATLAS'))
 .catch((error) => console.error(error));
 
 
