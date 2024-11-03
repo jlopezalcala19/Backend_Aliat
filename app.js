@@ -1,16 +1,17 @@
-const express = require ('express')
-global.app = express()
+const express = require ('express');
+require('dotenv').config();
+global.app = express();
 const multer = require('multer');
-//global.upload = multer({dest: 'uploads/'}) 
 global.sharp = require('sharp')
-
 const path = require('path');
 const config = require("./config.js").config
 var bodyParser = require("body-parser")
+const mongoose = require("mongoose")
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.json())
-const mongoose = require("mongoose")
+
 var cors = require('cors')
 
 
@@ -24,9 +25,6 @@ global.upload = multer({ storage: multer.memoryStorage() });
 //       cb(null, Date.now() + path.extname(file.originalname));
 //     }
 //   });
-
-
-
 
 
 
@@ -71,12 +69,21 @@ app.use(session)
 
 global.datos = []
 require("./rutas.js")
-mongoose.connect("mongodb://127.0.0.1:27017/" + config.nombrebd, {useNewUrlParser:true, useUnifiedTopology:true}).then((respuesta)=>{
-    console.log("Conexión correcta a Mongo")
-}).catch((error)=>{
-    console.log(error)
-})
 
+///////////////////CONEXION A BASE DE DATOS////////////////////////////////////////////////////////////
+//mongodb://127.0.0.1:27017/
+mongoose
+.connect(process.env.MONGODB_URI)
+.then(()=>console.log('Conectado a ATLAS'))
+.catch((error) => console.error(error));
+
+
+// mongoose.connect("mongodb://127.0.0.1:27017/" + config.nombrebd, {useNewUrlParser:true, useUnifiedTopology:true}).then((respuesta)=>{
+//     console.log("Conexión correcta a Mongo")
+// }).catch((error)=>{
+//     console.log(error)
+// })
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.use("/imagenes", express.static(__dirname + "/imagenes"))
 app.use("/uploads", express.static(__dirname + "/uploads"))
