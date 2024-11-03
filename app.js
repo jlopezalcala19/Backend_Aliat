@@ -72,17 +72,18 @@ require("./rutas.js")
 
 ///////////////////CONEXION A BASE DE DATOS////////////////////////////////////////////////////////////
 //mongodb://127.0.0.1:27017/
-mongoose
-.connect(process.env.MONGODB_URI)
-.then(()=>console.log('Conectado a Mongo ATLAS'))
-.catch((error) => console.error(error));
+// mongoose
+
+// .connect(process.env.MONGODB_URI)
+// .then(()=>console.log('Conectado a Mongo ATLAS'))
+// .catch((error) => console.error(error));
 
 
-// mongoose.connect("mongodb://127.0.0.1:27017/" + config.nombrebd, {useNewUrlParser:true, useUnifiedTopology:true}).then((respuesta)=>{
-//     console.log("Conexión correcta a Mongo")
-// }).catch((error)=>{
-//     console.log(error)
-// })
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser:true, useUnifiedTopology:true}).then((respuesta)=>{
+    console.log("Conexión correcta a Mongo AT")
+}).catch((error)=>{
+console.log(error)
+})
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.use("/imagenes", express.static(__dirname + "/imagenes"))
