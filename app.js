@@ -34,8 +34,8 @@ app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', whitelist);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
     res.header('Access-Control-Allow-Headers', "*");// authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers
-    res.header("Access-Control-Allow-Credentials", "false");
-    res.header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
+    //res.header("Access-Control-Allow-Credentials", "false");
+    //res.header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
     next();
 
 });
