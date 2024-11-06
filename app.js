@@ -59,7 +59,6 @@ global.upload = multer({ storage: multer.memoryStorage() });
 // }))
 
 ////////// NUEVA CONFIGURACION DE CORS
-
 const corsOptions = {
     origin: function (origin, callback) {
         // Si no hay origen (por ejemplo, en herramientas de prueba), permitir siempre
@@ -80,11 +79,23 @@ const corsOptions = {
 // Usar el middleware de CORS con las opciones configuradas
 app.use(cors(corsOptions));
 
+// Middleware para manejar todas las solicitudes y agregar los encabezados CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin); // Permitir origen dinámico
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
+    res.header('Access-Control-Allow-Headers', 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
+
 // Manejar solicitudes preflight
-app.options('*', cors(corsOptions));
-
-
-
+app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
+    res.header('Access-Control-Allow-Headers', 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(200); // Responder con 200 OK
+});
 
 
 
