@@ -56,6 +56,10 @@ app.use(cors({
 
 }))
 
+app.options('*', cors())
+
+
+
 var session = require('express-session')({
     secret:config.secretsession,
     resave:true,
