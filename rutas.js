@@ -9,7 +9,7 @@ app.post("/usuarios/registrar", function(request, response){
     usuariosController.registrar(request, response)    
 })
 
-app.post("api/usuarios/listar", function(request, response){
+app.post("/usuarios/listar", function(request, response){
     usuariosController.listar(request, response)
 })
 
