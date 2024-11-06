@@ -2,7 +2,7 @@ var config = {}
 config.puerto = process.env.PORT || 3000
 config.nombrebd = "aliat"
 config.listablanca =[
-    'http://localhost:4200'
+    'https://backend-aliat.onrender.com'//'http://localhost:4200'
 ]
 
 config.secretsession ="Nana17122019"
