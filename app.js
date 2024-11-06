@@ -31,7 +31,7 @@ global.upload = multer({ storage: multer.memoryStorage() });
 app.all('*', function(req, res, next) {
 
     var whitelist = req.headers.origin;
-    res.header('Access-Control-Allow-Origin', whitelist);
+    res.header('Access-Control-Allow-Origin', '*');//whitelist)
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
     res.header('Access-Control-Allow-Headers', "*");// authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers
     res.header("Access-Control-Allow-Credentials", "true");
