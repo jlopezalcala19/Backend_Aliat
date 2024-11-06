@@ -61,7 +61,7 @@ global.upload = multer({ storage: multer.memoryStorage() });
 ////////// NUEVA CONFIGURACION DE CORS
 
 // Middleware para manejar CORS
-app.use((req, res, next) => {
+const corsMiddleware = (req, res, next) => {
     const origin = req.headers.origin;
     if (whitelist.includes(origin)) {
         res.header('Access-Control-Allow-Origin', origin);
@@ -71,12 +71,12 @@ app.use((req, res, next) => {
     }
     // Si es una solicitud preflight OPTIONS, responder con 200 directamente
     if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-    } else {
-        next();
+        return res.sendStatus(200);
     }
-});
-    
+    next();
+};
+
+app.use(corsMiddleware);
 
 
 
