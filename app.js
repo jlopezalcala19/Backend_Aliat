@@ -26,37 +26,64 @@ global.upload = multer({ storage: multer.memoryStorage() });
 //     }
 //   });
 
+///////////CONFIGURACION DE CORS INICIAL
 
+// app.all('*', function(req, res, next) {
 
-app.all('*', function(req, res, next) {
+//     var whitelist = req.headers.origin;
+//     res.header('Access-Control-Allow-Origin', whitelist);
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
+//     res.header('Access-Control-Allow-Headers', "authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+//     res.header("Access-Control-Allow-Credentials", "true");
+//     //res.header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
+//     next();
 
-    var whitelist = req.headers.origin;
-    res.header('Access-Control-Allow-Origin', whitelist);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
-    res.header('Access-Control-Allow-Headers', "authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-    res.header("Access-Control-Allow-Credentials", "true");
-    //res.header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
-    next();
-
-});
+// });
 
 //app.options('*', cors())
 
-app.use(cors({
-    origin: function(origin, callback){
-        console.log(origin)
-        if(!origin){
-            return callback(null, true)
+// app.use(cors({
+//     origin: function(origin, callback){
+//         console.log(origin)
+//         if(!origin){
+//             return callback(null, true)
+//         }
+
+//         if(config.listablanca.indexOf(origin)===-1){
+//             return callback("Error de cors", false)
+//         }
+
+//         return callback(null, true)
+//     }
+
+// }))
+
+////////// NUEVA CONFIGURACION DE CORS
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Si no hay origen (por ejemplo, en herramientas de prueba), permitir siempre
+        if (!origin) return callback(null, true);
+
+        // Comprobar si el origen está en la lista blanca
+        if (config.listablanca.indexOf(origin) === -1) {
+            return callback(new Error('No permitido por CORS'), false);
         }
 
-        if(config.listablanca.indexOf(origin)===-1){
-            return callback("Error de cors", false)
-        }
+        return callback(null, true);
+    },
+    methods: 'GET,PUT,POST,DELETE,OPTIONS,HEAD',
+    allowedHeaders: 'Authorization,Access-Control-Allow-Headers,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers',
+    credentials: true // Permitir credenciales si es necesario
+};
 
-        return callback(null, true)
-    }
+// Usar el middleware de CORS con las opciones configuradas
+app.use(cors(corsOptions));
 
-}))
+// Manejar solicitudes preflight
+app.options('*', cors(corsOptions));
+
+
 
 
 
