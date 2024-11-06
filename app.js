@@ -59,44 +59,24 @@ global.upload = multer({ storage: multer.memoryStorage() });
 // }))
 
 ////////// NUEVA CONFIGURACION DE CORS
-const corsOptions = {
-    origin: function (origin, callback) {
-        // Si no hay origen (por ejemplo, en herramientas de prueba), permitir siempre
-        if (!origin) return callback(null, true);
 
-        // Comprobar si el origen está en la lista blanca
-        if (config.listablanca.indexOf(origin) === -1) {
-            return callback(new Error('No permitido por CORS'), false);
-        }
-
-        return callback(null, true);
-    },
-    methods: 'GET,PUT,POST,DELETE,OPTIONS,HEAD',
-    allowedHeaders: 'Authorization,Access-Control-Allow-Headers,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers',
-    credentials: true // Permitir credenciales si es necesario
-};
-
-// Usar el middleware de CORS con las opciones configuradas
-app.use(cors(corsOptions));
-
-// Middleware para manejar todas las solicitudes y agregar los encabezados CORS
+// Middleware para manejar CORS
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', req.headers.origin); // Permitir origen dinámico
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
-    res.header('Access-Control-Allow-Headers', 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
+    const origin = req.headers.origin;
+    if (whitelist.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
+        res.header('Access-Control-Allow-Headers', 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+        res.header('Access-Control-Allow-Credentials', 'true');
+    }
+    // Si es una solicitud preflight OPTIONS, responder con 200 directamente
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
 });
-
-// Manejar solicitudes preflight
-app.options('*', (req, res) => {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
-    res.header('Access-Control-Allow-Headers', 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.sendStatus(200); // Responder con 200 OK
-});
-
+    
 
 
 
