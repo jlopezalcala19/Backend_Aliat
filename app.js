@@ -40,7 +40,7 @@ app.all('*', function(req, res, next) {
 
 });
 
-app.options('*', cors())
+//app.options('*', cors())
 
 app.use(cors({
     origin: function(origin, callback){
