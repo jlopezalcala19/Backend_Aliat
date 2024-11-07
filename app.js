@@ -85,12 +85,11 @@ app.options('*', (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
     res.sendStatus(200);
 });
 
 
-
-   
 
 var session = require('express-session')({
     secret:config.secretsession,
