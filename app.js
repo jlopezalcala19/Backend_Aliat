@@ -7,8 +7,8 @@ const path = require('path');
 const config = require("./config.js").config
 var bodyParser = require("body-parser")
 const mongoose = require("mongoose")
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+
+
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
@@ -92,33 +92,16 @@ app.options('*', (req, res) => {
 
 /////CONFIGURACIÓN DE LA SESIÓN////////////////////////////////////////////////////////////
 
-app.use(session({
-    secret: config.secretsession,
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
-    cookie: {
-      path: '/',
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: config.tiemposession,
-      sameSite: 'None' // Importante para cookies entre diferentes sitios
-    },
-    name: config.namecookie,
-    rolling: true
-  }));
+var session = require('express-session')({
+    secret:config.secretsession,
+    resave:true,
+    saveUninitialized:true,
+    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
+    name:config.namecookie,
+    rolling:true
+ })
 
-
-// var session = require('express-session')({
-//     secret:config.secretsession,
-//     resave:true,
-//     saveUninitialized:true,
-//     cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
-//     name:config.namecookie,
-//     rolling:true
-// })
-
-// app.use(session)
+ app.use(session)
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
