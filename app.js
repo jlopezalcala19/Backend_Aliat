@@ -7,6 +7,7 @@ const path = require('path');
 const config = require("./config.js").config
 var bodyParser = require("body-parser")
 const mongoose = require("mongoose")
+const MongoStore = require('connect-mongo')(session);
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
@@ -85,34 +86,47 @@ app.options('*', (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
     res.sendStatus(200);
 });
 
+/////CONFIGURACIÓN DE LA SESIÓN////////////////////////////////////////////////////////////
+
+app.use(session({
+    secret: config.secretsession,
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: config.tiemposession,
+      sameSite: 'None' // Importante para cookies entre diferentes sitios
+    },
+    name: config.namecookie,
+    rolling: true
+  }));
 
 
-var session = require('express-session')({
-    secret:config.secretsession,
-    resave:true,
-    saveUninitialized:true,
-    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
-    name:config.namecookie,
-    rolling:true
-})
+// var session = require('express-session')({
+//     secret:config.secretsession,
+//     resave:true,
+//     saveUninitialized:true,
+//     cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
+//     name:config.namecookie,
+//     rolling:true
+// })
 
-app.use(session)
+// app.use(session)
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 
 global.datos = []
 require("./rutas.js")
 
 ///////////////////CONEXION A BASE DE DATOS////////////////////////////////////////////////////////////
 //mongodb://127.0.0.1:27017/
-// mongoose
-
-// .connect(process.env.MONGODB_URI)
-// .then(()=>console.log('Conectado a Mongo ATLAS'))
-// .catch((error) => console.error(error));
-
 
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser:true, useUnifiedTopology:true}).then((respuesta)=>{
     console.log("Conexión correcta a Mongo AT")
