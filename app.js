@@ -96,7 +96,7 @@ var session = require('express-session')({
     secret:config.secretsession,
     resave:true,
     saveUninitialized:true,
-    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
+    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession, sameSite:'none', secure:true},
     name:config.namecookie,
     rolling:true
  })
