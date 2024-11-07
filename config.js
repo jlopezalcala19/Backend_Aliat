@@ -7,6 +7,6 @@ config.listablanca =[
 ]
 
 config.secretsession ="Nana17122019"
-config.tiemposession= (300000*2)
+config.tiemposession= (3000)
 config.namecookie = "aliatcookie"
 module.exports.config = config
