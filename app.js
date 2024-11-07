@@ -7,7 +7,7 @@ const path = require('path');
 const config = require("./config.js").config
 var bodyParser = require("body-parser")
 const mongoose = require("mongoose")
-
+const MongoStore = require('connect-mongo');
 
 
 app.use(bodyParser.json())
@@ -98,7 +98,11 @@ var session = require('express-session')({
     saveUninitialized:true,
     cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession, sameSite:'none', secure:true, domain:'backend-aliat.onrender.com'},
     name:config.namecookie,
-    rolling:true
+    rolling:true,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI, // URL de conexión a MongoDB
+        ttl: 14 * 24 * 60 * 60,  // Expiración de las sesiones en segundos (14 días)
+    })
  })
 
  app.use(session)
