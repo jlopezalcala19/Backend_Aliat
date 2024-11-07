@@ -7,6 +7,7 @@ const path = require('path');
 const config = require("./config.js").config
 var bodyParser = require("body-parser")
 const mongoose = require("mongoose")
+const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 app.use(bodyParser.json())
