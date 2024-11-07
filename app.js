@@ -96,7 +96,7 @@ app.use(session({
     secret: config.secretsession,
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: {
       path: '/',
       httpOnly: true,
