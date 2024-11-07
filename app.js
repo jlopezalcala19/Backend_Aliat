@@ -96,7 +96,7 @@ var session = require('express-session')({
     secret:config.secretsession,
     resave:true,
     saveUninitialized:true,
-    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession, sameSite:'none', secure:true},
+    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession, sameSite:'none', secure:true, domain:'backend-aliat.onrender.com'},
     name:config.namecookie,
     rolling:true
  })
