@@ -39,6 +39,7 @@ app.post("/usuarios/login", function(request, response){
 
 app.post("/usuarios/state", function(request, response){
     response.json(request.session)
+    console.log(request.session)
 })
 
 app.post("/usuarios/logout", function(request, response){

@@ -258,7 +258,6 @@ usuariosController.login = function(request, response){
             request.session.rol=pos[0].rol
             request.session.nombrecompleto=pos[0].nombre + ' ' + pos[0].apellido
 
-            console.log('Datos de la sesión:', request.session);
             response.json({state:true, mensaje: "Bienvenido", datos:pos})
         }
     })
