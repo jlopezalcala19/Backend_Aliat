@@ -248,7 +248,7 @@ usuariosController.login = function(request, response){
         if(pos.length==0){
             response.json({state:false, mensaje: "Credenciales invalidas"})
         }else{
-            //console.log(pos)
+            console.log(pos)
             request.session.email=pos[0].email
             request.session.nombre=pos[0].nombre
             request.session.apellido=pos[0].apellido
