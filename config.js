@@ -2,8 +2,7 @@ var config = {}
 config.puerto = process.env.PORT || 3000
 config.nombrebd = "aliat"
 config.listablanca =[
-    'https://aliatesp-frontend.netlify.app',
-    'http://localhost:4200'
+    'https://aliatesp-frontend.netlify.app'
 ]
 
 config.secretsession ="Nana17122019"

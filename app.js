@@ -58,19 +58,18 @@ var cors = require('cors')
 
 
 app.use(cors({
-    origin: function (origin, callback) {
-        // Si no hay origen (por ejemplo, peticiones desde el servidor), permite la solicitud
-        if (!origin) {
-            return callback(null, true);
-        }
-
-        // Compara el origen con la lista blanca
-        if (config.listablanca.indexOf(origin) === -1) {
-            return callback(new Error("Error de CORS: El origen no está permitido"), false);
-        }
-
-        return callback(null, true); // Si el origen está en la lista blanca, permite la solicitud
-    },
+    // origin: function (origin, callback) {
+    //     // Si no hay origen (por ejemplo, peticiones desde el servidor), permite la solicitud
+    //     if (!origin) {
+    //         return callback(null, true);
+    //     }
+    //     // Compara el origen con la lista blanca
+    //     if (config.listablanca.indexOf(origin) === -1) {
+    //         return callback(new Error("Error de CORS: El origen no está permitido"), false);
+    //     }
+    //     return callback(null, true); // Si el origen está en la lista blanca, permite la solicitud
+    // },
+    origin:'https://aliatesp-frontend.netlify.app',
     methods: 'GET,PUT,POST,DELETE,OPTIONS,HEAD',
     allowedHeaders: 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
     credentials: true // Permitir el envío de cookies
