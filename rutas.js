@@ -35,10 +35,12 @@ app.post("/usuarios/buscar", function(request, response){
 
 app.post("/usuarios/login", function(request, response){
     usuariosController.login(request, response)
+    
 })
 
 app.post("/usuarios/state", function(request, response){
     response.json(request.session)
+    console.log("prueba////////")
     console.log(request.session)
 })
 
@@ -146,7 +148,7 @@ app.post("/carousel/listar", function(request, response){
     carouselController.listar(request, response)
 })
 
-app.post("/carousel/actualizar", upload.single('imagen'),function(request, response){
+app.post("/carousel/actualizar",function(request, response){
     carouselController.actualizar(request, response)
 })
 
@@ -158,23 +160,23 @@ app.post("/carousel/buscarporcodigo",  function(request, response){
     carouselController.buscarporcodigo(request, response)
 })
 
-app.post("/carousel/imagen", upload.single('imagen') , async function(request, response){
-    const fs = require('fs')
-    const body = request.body
-    const imagen = request.file
+// app.post("/carousel/imagen", upload.single('imagen') , async function(request, response){
+//     const fs = require('fs')
+//     const body = request.body
+//     const imagen = request.file
 
-    const processimagen = sharp(imagen.buffer)
-    const resizeimagen = processimagen.resize(800, 200, {
-        fit: "contain",
-        background:"#FFF"
-    })
+//     const processimagen = sharp(imagen.buffer)
+//     const resizeimagen = processimagen.resize(800, 200, {
+//         fit: "contain",
+//         background:"#FFF"
+//     })
 
-    const newimagenresize = await resizeimagen.toBuffer()
+//     const newimagenresize = await resizeimagen.toBuffer()
 
-    fs.writeFileSync('nuevaruta/prueba.png', newimagenresize )
+//     fs.writeFileSync('nuevaruta/prueba.png', newimagenresize )
 
-    //response.send({resizeImage: newimagenresize})
-    //console.log (processimagen)
+//     //response.send({resizeImage: newimagenresize})
+//     //console.log (processimagen)
 
-})
+// })
 
