@@ -1,5 +1,5 @@
 var config = {}
-config.puerto = process.env.PORT || 3000
+config.puerto = 3000
 config.nombrebd = "aliat"
 config.listablanca =[
     'https://aliatesp-frontend.netlify.app',

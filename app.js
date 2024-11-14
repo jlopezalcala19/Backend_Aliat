@@ -131,4 +131,6 @@ console.log(error)
 
 app.use("/imagenes", express.static(__dirname + "/imagenes"))
 app.use("/uploads", express.static(__dirname + "/uploads"))
-app.listen(config.puerto, ()=> console.log("Servidor encendido por el puerto " + config.puerto))
+
+const PORT = process.env.PORT || config.puerto;
+app.listen(PORT, ()=> console.log(`Servidor encendido por el puerto ${PORT}`))
