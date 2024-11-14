@@ -1,6 +1,6 @@
 const express = require ('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 require('dotenv').config();
 global.app = express();
 const path = require('path');
@@ -102,11 +102,11 @@ app.options('*', (req, res) => {
 
 // Configurar el middleware de sesión
 app.use(session({
-    secret: 'your secret key',
+    secret: config.secretsession,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({
-        mongooseConnection: mongoose.connection
+    store: new MongoStore.create({
+        mongoUrl:process.env.MONGODB_URI
     })
 }));
 
