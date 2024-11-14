@@ -105,6 +105,8 @@ app.use(session({
     secret: config.secretsession,
     resave: false,
     saveUninitialized: false,
+    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
+    rolling:true,
     store: MongoStore.create({
         mongoUrl:process.env.MONGODB_URI
     })
