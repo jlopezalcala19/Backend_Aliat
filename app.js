@@ -105,7 +105,7 @@ app.use(session({
     secret: config.secretsession,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore.create({
+    store: MongoStore.create({
         mongoUrl:process.env.MONGODB_URI
     })
 }));
