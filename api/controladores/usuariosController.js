@@ -228,41 +228,79 @@ usuariosController.filtrarporemail = function(request, response){
     
 }
 
-usuariosController.login = function(request, response){
+// usuariosController.login = function(request, response){
+//     var datos = {
+//         email: request.body.email,
+//         password: request.body.password
+//     }
+
+//     if (datos.email == undefined || datos.email==null || datos.email == ""){
+//         response.json({state:false, mensaje: "El email es obligatorio"})
+//         return false
+//     }
+
+//     if (datos.password == undefined || datos.password==null || datos.password == ""){
+//         response.json({state:false, mensaje: "El campo password es obligatorio"})
+//         return false
+//     }
+
+//     usuariosModel.login(datos,function(pos){
+//         if(pos.length==0){
+//             response.json({state:false, mensaje: "Credenciales invalidas"})
+//         }else{
+//             request.session.email=pos[0].email
+//             request.session.nombre=pos[0].nombre
+//             request.session.apellido=pos[0].apellido
+//             request.session.telefono=pos[0].telefono
+//             request.session.direccion=pos[0].direccion
+//             request.session.password=pos[0].password
+//             request.session.rol=pos[0].rol
+//             request.session.nombrecompleto=pos[0].nombre + ' ' + pos[0].apellido
+
+//             //console.log(request.session)
+//             response.json({state:true, mensaje: "Bienvenido", datos:pos})
+//         }
+//     })
+
+// }
+
+
+usuariosController.login = function(request, response) {
     var datos = {
         email: request.body.email,
         password: request.body.password
+    };
+
+    // Validaciones
+    if (!datos.email) {
+        return response.json({ state: false, mensaje: "El email es obligatorio" });
+    }
+    if (!datos.password) {
+        return response.json({ state: false, mensaje: "El campo password es obligatorio" });
     }
 
-    if (datos.email == undefined || datos.email==null || datos.email == ""){
-        response.json({state:false, mensaje: "El email es obligatorio"})
-        return false
-    }
+    usuariosModel.login(datos, function(pos) {
+        if (pos.length == 0) {
+            response.json({ state: false, mensaje: "Credenciales invalidas" });
+        } else {
+            request.session.user = {
+                email: pos[0].email,
+                nombre: pos[0].nombre,
+                apellido: pos[0].apellido,
+                telefono: pos[0].telefono,
+                direccion: pos[0].direccion,
+                rol: pos[0].rol,
+                nombrecompleto: `${pos[0].nombre} ${pos[0].apellido}`
+            };
 
-    if (datos.password == undefined || datos.password==null || datos.password == ""){
-        response.json({state:false, mensaje: "El campo password es obligatorio"})
-        return false
-    }
-
-    usuariosModel.login(datos,function(pos){
-        if(pos.length==0){
-            response.json({state:false, mensaje: "Credenciales invalidas"})
-        }else{
-            request.session.email=pos[0].email
-            request.session.nombre=pos[0].nombre
-            request.session.apellido=pos[0].apellido
-            request.session.telefono=pos[0].telefono
-            request.session.direccion=pos[0].direccion
-            request.session.password=pos[0].password
-            request.session.rol=pos[0].rol
-            request.session.nombrecompleto=pos[0].nombre + ' ' + pos[0].apellido
-
-            //console.log(request.session)
-            response.json({state:true, mensaje: "Bienvenido", datos:pos})
+            response.json({ state: true, mensaje: "Bienvenido", datos: pos });
         }
-    })
+    });
+};
 
-}
+
+
+
 
 
 
