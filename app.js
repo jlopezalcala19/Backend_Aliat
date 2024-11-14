@@ -1,4 +1,6 @@
 const express = require ('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 require('dotenv').config();
 global.app = express();
 const path = require('path');
@@ -6,13 +8,13 @@ const config = require("./config.js").config
 var bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 
-
+var cors = require('cors')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.json())
 
-var cors = require('cors')
+
 
 
 // Configuración de multer
@@ -87,16 +89,27 @@ app.options('*', (req, res) => {
 
 /////CONFIGURACIÓN DE LA SESIÓN////////////////////////////////////////////////////////////
 
-var session = require('express-session')({
-    secret:config.secretsession,
-    resave:true,
-    saveUninitialized:true,
-    cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
-    name:config.namecookie,
-    rolling:true
- })
+// var session = require('express-session')({
+//     secret:config.secretsession,
+//     resave:true,
+//     saveUninitialized:true,
+//     cookie:{path:'/', httpOnly:true, maxAge:config.tiemposession},
+//     name:config.namecookie,
+//     rolling:true
+//  })
 
- app.use(session)
+//  app.use(session)
+
+// Configurar el middleware de sesión
+app.use(session({
+    secret: 'your secret key',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    })
+}));
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
