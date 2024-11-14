@@ -28,52 +28,52 @@ var cors = require('cors')
 
 ///////////CONFIGURACION DE CORS INICIAL
 
-// app.all('*', function(req, res, next) {
+app.all('*', function(req, res, next) {
 
-//     var whitelist = req.headers.origin;
-//     res.header('Access-Control-Allow-Origin', whitelist);
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
-//     res.header('Access-Control-Allow-Headers', "authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     //res.header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
-//     next();
+    var whitelist = req.headers.origin;
+    res.header('Access-Control-Allow-Origin', whitelist);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
+    res.header('Access-Control-Allow-Headers', "authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    res.header("Access-Control-Allow-Credentials", "true");
+    //res.header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
+    next();
 
-// });
-
-// app.use(cors({
-//     origin: function(origin, callback){
-//         //console.log(origin)
-//         if(!origin){
-//             return callback(null, true)
-//         }
-
-//         if(config.listablanca.indexOf(origin)===-1){
-//             return callback("Error de cors", false)
-//         }
-
-//         return callback(null, true)
-//     }
-
-// }))
-
+});
 
 app.use(cors({
-    // origin: function (origin, callback) {
-    //     // Si no hay origen (por ejemplo, peticiones desde el servidor), permite la solicitud
-    //     if (!origin) {
-    //         return callback(null, true);
-    //     }
-    //     // Compara el origen con la lista blanca
-    //     if (config.listablanca.indexOf(origin) === -1) {
-    //         return callback(new Error("Error de CORS: El origen no está permitido"), false);
-    //     }
-    //     return callback(null, true); // Si el origen está en la lista blanca, permite la solicitud
-    // },
-    origin:'https://aliatesp-frontend.netlify.app',
-    methods: 'GET,PUT,POST,DELETE,OPTIONS,HEAD',
-    allowedHeaders: 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-    credentials: true // Permitir el envío de cookies
-}));
+    origin: function(origin, callback){
+        //console.log(origin)
+        if(!origin){
+            return callback(null, true)
+        }
+
+        if(config.listablanca.indexOf(origin)===-1){
+            return callback("Error de cors", false)
+        }
+
+        return callback(null, true)
+    }
+
+}))
+
+
+// app.use(cors({
+//     // origin: function (origin, callback) {
+//     //     // Si no hay origen (por ejemplo, peticiones desde el servidor), permite la solicitud
+//     //     if (!origin) {
+//     //         return callback(null, true);
+//     //     }
+//     //     // Compara el origen con la lista blanca
+//     //     if (config.listablanca.indexOf(origin) === -1) {
+//     //         return callback(new Error("Error de CORS: El origen no está permitido"), false);
+//     //     }
+//     //     return callback(null, true); // Si el origen está en la lista blanca, permite la solicitud
+//     // },
+//     origin:'https://aliatesp-frontend.netlify.app',
+//     methods: 'GET,PUT,POST,DELETE,OPTIONS,HEAD',
+//     allowedHeaders: 'Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+//     credentials: true // Permitir el envío de cookies
+// }));
 
 
 //Manejo de solicitudes OPTIONS preflight para CORS
